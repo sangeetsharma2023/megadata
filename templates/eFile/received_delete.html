@@ -1,0 +1,13 @@
+{% extends 'eFile/base.html' %}
+
+{% block title %}Delete Received{% endblock %}
+
+{% block content %}
+    <h2 class="mb-4">Delete Received</h2>
+    <p>Are you sure you want to delete "{{ received_item.LetterSubject }}"?</p>
+    <form method="post" action="{% url 'received_delete' pk=received_item.pk %}" class="needs-validation" novalidate>
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger mt-3">Yes, delete</button>
+    </form>
+    <a class="btn btn-secondary mt-3" href="{% url 'received_list' %}">Cancel</a>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'eFile/base.html' %}
+
+{% block title %}Issue Letter Detail{% endblock %}
+
+{% block content %}
+    <h2 class="mb-4">{{ issue_letter.LetterSubject }}</h2>
+    <p>{{ issue_letter.LetterText }}</p>
+    <!-- Add other details as needed -->
+    <a class="btn btn-secondary mt-3" href="{% url 'issue_letter_list' %}">Back to List</a>
+    <a class="btn btn-warning mt-3" href="{% url 'issue_letter_edit' pk=issue_letter.pk %}">Edit</a>
+    <a class="btn btn-danger mt-3" href="{% url 'issue_letter_delete' pk=issue_letter.pk %}">Delete</a>
+{% endblock %}

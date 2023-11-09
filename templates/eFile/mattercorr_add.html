@@ -1,0 +1,14 @@
+{% extends 'eFile/base.html' %}
+
+{% block title %}Add MatterCorr{% endblock %}
+
+{% block content %}
+    <h2 class="mb-4">Add MatterCorr</h2>
+    <form method="post" action="{% url 'mattercorr_add' %}" class="needs-validation" novalidate>
+        {% csrf_token %}
+        {{ form.media }}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-success mt-3">Save</button>
+    </form>
+    <a class="btn btn-secondary mt-3" href="{% url 'mattercorr_list' %}">Back to List</a>
+{% endblock %}

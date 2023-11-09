@@ -1,0 +1,15 @@
+{% extends 'eFile/base.html' %}
+
+{% block title %}MatterCorr List{% endblock %}
+
+{% block content %}
+    <h2 class="mb-4">MatterCorr List</h2>
+    <ul class="list-group">
+        {% for mattercorr in mattercorrs %}
+            <li class="list-group-item">
+                <a href="{% url 'mattercorr_detail' pk=mattercorr.pk %}">{{ mattercorr.MatterCorrField }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+    <a class="btn btn-primary mt-3" href="{% url 'mattercorr_add' %}">Add MatterCorr</a>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'eFile/base.html' %}
+
+{% block title %}Add Issue Letter{% endblock %}
+
+{% block content %}
+    <h2 class="mb-4">Add Issue Letter</h2>
+    <form method="post" action="{% url 'issue_letter_add' %}" class="needs-validation" novalidate>
+        {% csrf_token %}
+        {{ form.media }}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-success mt-3">Save</button>
+    </form>
+    <a class="btn btn-secondary mt-3" href="{% url 'issue_letter_list' %}">Back to List</a>
+{% endblock %}

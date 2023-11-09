@@ -1,0 +1,17 @@
+{% extends 'eFile/base.html' %}
+
+{% block title %}Add Received{% endblock %}
+
+{% block content %}
+    <h2 class="mb-4">Add Received</h2>
+    <div class="form-group">
+        <form method="post" action="{% url 'received_add' %}" class="needs-validation" novalidate>
+            
+            {% csrf_token %}
+            {{ form.media }}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-success mt-3">Save</button>
+        </form>
+    </div>
+    <a class="btn btn-secondary mt-3" href="{% url 'received_list' %}">Back to List</a>
+{% endblock %}

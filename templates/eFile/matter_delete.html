@@ -1,0 +1,13 @@
+{% extends 'eFile/base.html' %}
+
+{% block title %}Delete Matter{% endblock %}
+
+{% block content %}
+    <h2 class="mb-4">Delete Matter</h2>
+    <p>Are you sure you want to delete "{{ matter.MatterSubject }}"?</p>
+    <form method="post" action="{% url 'matter_delete' pk=matter.pk %}" class="needs-validation" novalidate>
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger mt-3">Yes, delete</button>
+    </form>
+    <a class="btn btn-secondary mt-3" href="{% url 'matter_list' %}">Cancel</a>
+{% endblock %}

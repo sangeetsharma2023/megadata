@@ -1,0 +1,15 @@
+{% extends 'eFile/base.html' %}
+
+{% block title %}Received List{% endblock %}
+
+{% block content %}
+    <h2 class="mb-4">Received List</h2>
+    <ul class="list-group">
+        {% for received_item in received_items %}
+            <li class="list-group-item">
+                <a href="{% url 'received_detail' pk=received_item.pk %}">{{ received_item.LetterSubject }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+    <a class="btn btn-primary mt-3" href="{% url 'received_add' %}">Add Received</a>
+{% endblock %}

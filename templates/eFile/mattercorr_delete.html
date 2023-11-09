@@ -1,0 +1,13 @@
+{% extends 'eFile/base.html' %}
+
+{% block title %}Delete MatterCorr{% endblock %}
+
+{% block content %}
+    <h2 class="mb-4">Delete MatterCorr</h2>
+    <p>Are you sure you want to delete "{{ mattercorr.MatterCorrField }}"?</p>
+    <form method="post" action="{% url 'mattercorr_delete' pk=mattercorr.pk %}" class="needs-validation" novalidate>
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger mt-3">Yes, delete</button>
+    </form>
+    <a class="btn btn-secondary mt-3" href="{% url 'mattercorr_list' %}">Cancel</a>
+{% endblock %}

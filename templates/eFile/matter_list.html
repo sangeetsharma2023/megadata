@@ -1,0 +1,15 @@
+{% extends 'eFile/base.html' %}
+
+{% block title %}Matters List{% endblock %}
+
+{% block content %}
+    <h2 class="mb-4">Matters List</h2>
+    <ul class="list-group">
+        {% for matter in matters %}
+            <li class="list-group-item">
+                <a href="{% url 'matter_detail' pk=matter.pk %}">{{ matter.MatterSubject }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+    <a class="btn btn-primary mt-3" href="{% url 'matter_add' %}">Add Matter</a>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'eFile/base.html' %}
+
+{% block title %}Issue Letters List{% endblock %}
+
+{% block content %}
+    <h2 class="mb-4">Issue Letters List</h2>
+    <ul class="list-group">
+        {% for issue_letter in issue_letters %}
+            <li class="list-group-item">
+                <a href="{% url 'issue_letter_detail' pk=issue_letter.pk %}">{{ issue_letter.LetterSubject }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+    <a class="btn btn-primary mt-3" href="{% url 'issue_letter_add' %}">Add Issue Letter</a>
+{% endblock %}
