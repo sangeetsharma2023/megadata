@@ -1,0 +1,57 @@
+<!-- templates/eFile/home.html -->
+{% extends 'eFile/base.html' %}
+{% block title %}eFile Home{% endblock %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h2>Welcome to eFile</h2>
+
+        <!-- Group: Received -->
+        <div class="card">
+            <div class="card-header">
+                Received
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><a class="btn btn-primary" href="{% url 'received_list' %}">Received List</a></li>
+                <li class="list-group-item"><a class="btn btn-primary" href="{% url 'received_add' %}">Add Received</a></li>
+                <!-- Add more links as needed -->
+            </ul>
+        </div>
+
+        <!-- Group: Issue Letters -->
+        <div class="card mt-3">
+            <div class="card-header">
+                Issue Letters
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><a class="btn btn-primary" href="{% url 'issue_letter_list' %}">Issue Letter List</a></li>
+                <li class="list-group-item"><a class="btn btn-primary" href="{% url 'issue_letter_add' %}">Add Issue Letter</a></li>
+                <!-- Add more links as needed -->
+            </ul>
+        </div>
+
+        <!-- Group: Matter -->
+        <div class="card mt-3">
+            <div class="card-header">
+                Matter
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><a class="btn btn-primary" href="{% url 'matter_list' %}">Matter List</a></li>
+                <li class="list-group-item"><a class="btn btn-primary" href="{% url 'matter_add' %}">Add Matter</a></li>
+                <!-- Add more links as needed -->
+            </ul>
+        </div>
+
+        <!-- Group: MatterCorr -->
+        <div class="card mt-3">
+            <div class="card-header">
+                MatterCorr
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><a class="btn btn-primary" href="{% url 'mattercorr_list' %}">MatterCorr List</a></li>
+                <li class="list-group-item"><a class="btn btn-primary" href="{% url 'mattercorr_add' %}">Add MatterCorr</a></li>
+                <!-- Add more links as needed -->
+            </ul>
+        </div>
+    </div>
+{% endblock %}

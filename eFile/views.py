@@ -3,6 +3,9 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Received, IssueLetter, Matter
 from .forms import ReceivedForm, IssueLetterForm, MatterForm
 
+def home(request):
+    return render(request, 'eFile/home.html')
+
 def received_list(request):
     received_items = Received.objects.all()
     return render(request, 'eFile/received_list.html', {'received_items': received_items})

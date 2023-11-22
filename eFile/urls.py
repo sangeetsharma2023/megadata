@@ -1,5 +1,6 @@
 # eFile/urls.py
 from django.urls import path
+from .views import home
 from .views import received_list, received_detail, received_add, received_edit, received_delete
 from .views import issue_letter_list, issue_letter_detail, issue_letter_add, issue_letter_edit, issue_letter_delete
 from .views import matter_add, matter_delete, matter_detail, matter_edit, matter_list
@@ -7,6 +8,8 @@ from .views import mattercorr_add, mattercorr_delete, mattercorr_detail, matterc
 
 
 urlpatterns = [
+    path('home/',home,name='home'),
+
     path('received/', received_list, name='received_list'),
     path('received/<int:pk>/', received_detail, name='received_detail'),
     path('received/add/', received_add, name='received_add'),
