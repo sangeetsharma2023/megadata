@@ -1,0 +1,68 @@
+{% extends 'fs/base.html' %}
+
+{% block title %}Add File{% endblock %}
+
+{% block content %}
+    <div class="container mt-4">
+        <h2>Add File</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <label for="{{ form.FileSl.id_for_label }}" class="form-label">File Sl</label>
+                {{ form.FileSl }}
+            </div>
+            
+            <div class="mb-3">
+                <label for="{{ form.FileType.id_for_label }}" class="form-label">File Type</label>
+                {{ form.FileType }}
+            </div>
+
+            <div class="mb-3">
+                <label for="{{ form.FileName.id_for_label }}" class="form-label">File Name</label>
+                {{ form.FileName }}
+            </div>
+
+            <div class="mb-3">
+                <label for="{{ form.FileNo.id_for_label }}" class="form-label">File Number</label>
+                {{ form.FileNo }}
+            </div>
+
+            <div class="mb-3">
+                <label for="{{ form.ActiveStatus.id_for_label }}" class="form-label">Active Status</label>
+                {{ form.ActiveStatus }}
+            </div>
+
+            <div class="mb-3">
+                <label for="{{ form.OpenDate.id_for_label }}" class="form-label">Open Date</label>
+                {{ form.OpenDate }}
+            </div>
+
+            <div class="mb-3">
+                <label for="{{ form.CloseDate.id_for_label }}" class="form-label">Close Date</label>
+                {{ form.CloseDate }}
+            </div>
+
+            <div class="mb-3">
+                <label for="{{ form.RelatedOffice.id_for_label }}" class="form-label">Related Office</label>
+                {{ form.RelatedOffice }}
+            </div>
+
+            <div class="mb-3">
+                <label for="{{ form.FileLocation.id_for_label }}" class="form-label">File Location</label>
+                {{ form.FileLocation }}
+            </div>
+
+            <div class="mb-3">
+                <label for="{{ form.WordFile.id_for_label }}" class="form-label">Word File</label>
+                {{ form.WordFile }}
+            </div>
+
+            <button type="submit" class="btn btn-primary">Add File</button>
+        </form>
+    </div>
+    <!-- Link to the list page -->
+    <div class="container mt-4">
+        <a href="{% url 'fs:view_file_list' %}" class="btn btn-secondary">View File List</a>
+    </div>
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends 'fs/base.html' %}
+
+{% block title %}Edit Sender{% endblock %}
+
+{% block content %}
+    <div class="container mt-4">
+        <h2>Edit Sender</h2>
+        <form method="post">
+            {% csrf_token %}
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <!-- Left column -->
+                    <div class="mb-3">
+                        <label for="{{ form.SenderShortName.id_for_label }}" class="form-label">Sender Short Name:</label>
+                        {{ form.SenderShortName }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="{{ form.SenderPost.id_for_label }}" class="form-label">Sender Post:</label>
+                        {{ form.SenderPost }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="{{ form.SenderOffice.id_for_label }}" class="form-label">Sender Office:</label>
+                        {{ form.SenderOffice }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="{{ form.SenderPlace.id_for_label }}" class="form-label">Sender Place:</label>
+                        {{ form.SenderPlace }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="{{ form.Pincode.id_for_label }}" class="form-label">Pincode:</label>
+                        {{ form.Pincode }}
+                    </div>
+                    <div class="mb-3 form-check">
+                        {{ form.OfficeDefault }}
+                        <label for="{{ form.OfficeDefault.id_for_label }}" class="form-check-label">Make Default</label>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <!-- Right column -->
+                    <div class="mb-3">
+                        <label for="{{ form.SenderShortNameH.id_for_label }}" class="form-label">Sender Short Name (H):</label>
+                        {{ form.SenderShortNameH }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="{{ form.SenderPostH.id_for_label }}" class="form-label">Sender Post (H):</label>
+                        {{ form.SenderPostH }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="{{ form.SenderOfficeH.id_for_label }}" class="form-label">Sender Office (H):</label>
+                        {{ form.SenderOfficeH }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="{{ form.SenderPlaceH.id_for_label }}" class="form-label">Sender Place (H):</label>
+                        {{ form.SenderPlaceH }}
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary mt-3">Save Changes</button>
+        </form>
+
+        <div class="mt-3">
+            <a href="{% url 'fs:sender_list' %}" class="btn btn-secondary">Back to Sender List</a>
+        </div>
+    </div>
+{% endblock %}

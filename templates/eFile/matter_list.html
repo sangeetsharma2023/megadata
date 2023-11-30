@@ -1,15 +1,35 @@
+<!-- eFile/templates/eFile/matter_list.html -->
 {% extends 'eFile/base.html' %}
 
-{% block title %}Matters List{% endblock %}
+{% block title %}Matter List{% endblock %}
 
 {% block content %}
-    <h2 class="mb-4">Matters List</h2>
-    <ul class="list-group">
-        {% for matter in matters %}
-            <li class="list-group-item">
-                <a href="{% url 'matter_detail' pk=matter.pk %}">{{ matter.MatterSubject }}</a>
-            </li>
-        {% endfor %}
-    </ul>
-    <a class="btn btn-primary mt-3" href="{% url 'matter_add' %}">Add Matter</a>
+  <h2 class="mb-4">Matter List</h2>
+  
+  <!-- Filter Form -->
+  <form method="get" class="mb-3">
+    <label for="matter_status_filter">Filter by MatterStatus:</label>
+    <select name="matter_status_filter" id="matter_status_filter">
+      <option value="" {% if not selected_matter_status %}selected{% endif %}>All</option>
+      {% for status in matter_statuses %}
+        <option value="{{ status.MatterStatus }}" {% if selected_matter_status == status.MatterStatus %}selected{% endif %}>{{ status.MatterStatus }}</option>
+      {% endfor %}
+    </select>
+    <button type="submit" class="btn btn-primary">Apply Filter</button>
+  </form>
+  
+  <!-- Matter List -->
+  <ul class="list-group">
+    {% for matter in matters %}
+      <li class="list-group-item">
+        <a href="{% url 'matter_detail_with_corr' pk=matter.pk %}">{{ matter.MatterSubject }}</a>
+        <div class="btn-group" role="group">
+          <a class="btn btn-warning" href="{% url 'matter_edit' pk=matter.pk %}">Edit</a>
+          <a class="btn btn-danger" href="{% url 'matter_delete' pk=matter.pk %}">Delete</a>
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+  
+  <a class="btn btn-primary mt-3" href="{% url 'matter_add' %}">Add Matter</a>
 {% endblock %}

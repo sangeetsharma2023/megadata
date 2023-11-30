@@ -1,0 +1,13 @@
+<!-- eFile/templates/eFile/letter_flow_detail.html -->
+{% extends 'eFile/base.html' %}
+
+{% block title %}Letter Flow Detail{% endblock %}
+
+{% block content %}
+  <h2 class="mb-4">Letter Flow Detail</h2>
+  <p>ID: {{ letter_flow.Id }}</p>
+  <p>Receive ID: {{ letter_flow.ReceiveId }}</p>
+  <!-- Add other fields as needed -->
+  
+  <a class="btn btn-secondary mt-3" href="{% url 'received_list_with_status' %}">Back to Received List</a>
+{% endblock %}

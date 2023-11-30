@@ -1,0 +1,37 @@
+<!-- eFile/templates/eFile/matter_detail_with_corr.html -->
+{% extends 'eFile/base.html' %}
+
+{% block title %}Matter Detail with Corr{% endblock %}
+
+{% block content %}
+  <h2 class="mb-4">{{ matter.MatterSubject }}</h2>
+  <p>{{ matter.MatterDetail }}</p>
+
+  <!-- MatterCorr List -->
+  <h3 class="mt-4">MatterCorr List</h3>
+  <ul class="list-group">
+    {% for mattercorr in matter.mattercorr_set.all %}
+    {% if mattercorr.ReceiveId %}
+        <!-- Fetch status from ReceiveFlowStatus for the corresponding ReceiveId -->
+        {% with receive_status=mattercorr.ReceiveId.receiveflowstatus_set.last %}
+            <span>Status: {{ receive_status.Status }}</span>
+        {% endwith %}
+    {% endif %}
+      <li class="list-group-item">
+        <span>{{ mattercorr.CorrStatus }} -  {{ mattercorr.ReceiveId }}</span>
+        <div class="btn-group" role="group">
+          <a class="btn btn-warning" href="{% url 'mattercorr_edit' pk=mattercorr.pk %}">Edit</a>
+          <a class="btn btn-danger" href="{% url 'mattercorr_delete' pk=mattercorr.pk %}">Delete</a>
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+
+  <!-- Add MatterCorr Button -->
+  <a class="btn btn-primary mt-3" href="{% url 'mattercorr_add_with_matter' matter_id=matter.pk %}">Add MatterCorr</a>
+
+  <!-- Add other details or sections as needed -->
+  <a class="btn btn-secondary mt-3" href="{% url 'matter_list' %}">Back to Matter List</a>
+  <a class="btn btn-warning mt-3" href="{% url 'matter_edit' pk=matter.pk %}">Edit</a>
+  <a class="btn btn-danger mt-3" href="{% url 'matter_delete' pk=matter.pk %}">Delete</a>
+{% endblock %}

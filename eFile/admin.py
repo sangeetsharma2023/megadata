@@ -18,6 +18,7 @@ admin.site.register(MatterCorr)
 admin.site.register(LetterSender)
 admin.site.register(LetterFlow)
 admin.site.register(LetterAttachment)
+admin.site.register(ReceiveFlowStatus)
 
 
 

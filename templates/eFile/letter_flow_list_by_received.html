@@ -1,0 +1,42 @@
+<!-- eFile/templates/eFile/letter_flow_list_by_received.html -->
+{% extends 'eFile/base.html' %}
+
+{% block title %}Letter Flow List{% endblock %}
+
+{% block content %}
+  <h2 class="mb-4">Letter Flow List</h2>
+  <p>Received ID: {{ received_id }}</p>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Flow Type</th>
+        <th>Action</th>
+        <th>Temp File</th>
+        <th>Noting Text</th>
+        <!-- Add other fields as needed -->
+        <th>Flow Start Time</th>
+        <th>Flow End Time</th>
+        <th>Time Taken</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for letter_flow in letter_flows %}
+        <tr>
+          <td>{{ letter_flow.Id }}</td>
+          <td>{{ letter_flow.FlowType.FlowType }}</td>
+          <td>{{ letter_flow.SuperiorAction }}</td>
+          <td>{{ letter_flow.TempFile }}</td>
+          <td>{{ letter_flow.NotingText }}</td>
+          <!-- Add other fields as needed -->
+          <td>{{ letter_flow.FlowStartTimeStamp }}</td>
+          <td>{{ letter_flow.FlowEndTimeStamp }}</td>
+          <td>{{ letter_flow.TimeTaken }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  
+  <a class="btn btn-secondary mt-3" href="{% url 'received_list_with_status' %}">Back to Received List</a>
+{% endblock %}

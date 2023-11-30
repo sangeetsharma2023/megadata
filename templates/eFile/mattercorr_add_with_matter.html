@@ -1,0 +1,15 @@
+<!-- eFile/templates/eFile/mattercorr_add_with_matter.html -->
+{% extends 'eFile/base.html' %}
+
+{% block title %}Add MatterCorr{% endblock %}
+
+{% block content %}
+  <h2 class="mb-4">Add MatterCorr for {{ matter.MatterSubject }}</h2>
+  <form method="post" action="{% url 'mattercorr_add_with_matter' matter_id=matter.pk %}" class="needs-validation" novalidate>
+    {% csrf_token %}
+    {{ form.media }}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success mt-3">Save</button>
+  </form>
+  <a class="btn btn-secondary mt-3" href="{% url 'matter_detail_with_corr' pk=matter.pk %}">Back to Matter Detail</a>
+{% endblock %}

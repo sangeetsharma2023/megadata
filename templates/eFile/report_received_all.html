@@ -1,0 +1,61 @@
+{% extends 'eFile/base.html' %}
+
+{% block title %}
+    Received List
+{% endblock %}
+
+{% block content %}
+    <h2 class="mt-4">Received List</h2>
+
+    <table id="receivedTable" class="table table-striped">
+        <thead>
+            <tr>
+                <th>Receive Date</th>
+                <th>Sender</th>
+                <th>Letter No</th>
+                <th>Letter Date</th>
+                <th>Letter Subject</th>
+                <th>Urgency</th>
+                <th>Due Date</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for received in received_list %}
+                <tr>
+                    <td>{{ received.ReceiveDate }}</td>
+                    <td>{{ received.Sender }}</td>
+                    <td>{{ received.LetterNo }}</td>
+                    <td>{{ received.LetterDate }}</td>
+                    <td>{{ received.LetterSubject }}</td>
+                    <td>{{ received.Urgency }}</td>
+                    <td>{{ received.DueDate }}</td>
+                    <td>{{ received.Status }}</td>
+                    <td>
+                        {% if received.Status == "Letter Received" or received.Status == 'Noting Approved' or received.Status == 'Draft Approved' %}
+                            <a href="{% url 'action_view' received.pk %}" class="btn btn-primary btn-sm">Action</a>
+                        {% else %}
+                            <a href="{% url 'verify_view' received.pk %}" class="btn btn-success btn-sm">Verify</a>
+                        {% endif %}
+
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Include DataTables CSS and JS files -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.25/datatables.min.css"/>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.25/datatables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var table = $('#receivedTable').DataTable({
+                // Add your DataTable options here
+            });
+
+            // Add a default filter excluding 'Letter Issued'
+            table.columns(7).search('^(?!Letter Issued).', true, false).draw();
+        });
+    </script>
+{% endblock %}

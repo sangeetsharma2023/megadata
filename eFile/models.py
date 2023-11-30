@@ -36,6 +36,7 @@ class FileInfo(models.Model):
     ]
 
     FileId = models.AutoField(primary_key=True)
+    FileSl = models.IntegerField(default=0)
     FileType = models.CharField(max_length=15, choices=FILE_TYPE_CHOICES)
     FileName = models.CharField(max_length=255)
     FileNo = models.CharField(max_length=50, null=True, blank=True)
@@ -47,7 +48,7 @@ class FileInfo(models.Model):
     WordFile = models.FileField(upload_to='word_files/',null=True, blank= True)
 
     def __str__(self):
-        return self.FileName
+        return f"{self.FileSl} - {self.FileName}"
     
 
 class Received(models.Model):
@@ -59,6 +60,7 @@ class Received(models.Model):
 
     ReceiveId = models.AutoField(primary_key=True)
     ReceiveDate = models.DateField()
+    Sender = models.ForeignKey(Senders, on_delete=models.CASCADE, default='1')
     LetterNo = models.CharField(max_length=50, blank=True,null=True)
     LetterDate = models.DateField()
     LetterSubject = models.CharField(max_length=255)
@@ -66,9 +68,25 @@ class Received(models.Model):
     # LetterDetail = models.TextField(null=True, blank=True)
     Urgency = models.CharField(max_length=15, choices=URGENCY_CHOICES)
     DueDate = models.DateField(null=True, blank=True)
+    Status = models.CharField(max_length=20, default='Letter Received')
 
     def __str__(self):
         return f"Received on {self.ReceiveDate} - {self.LetterSubject}"
+
+    def save(self, *args, **kwargs):
+        # Save the Received instance
+        super(Received, self).save(*args, **kwargs)
+
+        # Update ReceiveFlowStatus when status is "Letter Received"
+        if self.Status == "Letter Received":
+            # Create or update ReceiveFlowStatus
+            receive_flow_status, created = ReceiveFlowStatus.objects.get_or_create(
+                ReceiveId=self,
+                defaults={'Status': 'Letter Received'},
+            )
+            if not created:
+                receive_flow_status.Status = 'Letter Received'
+                receive_flow_status.save()
     
 
 class IssueLetter(models.Model):
@@ -156,7 +174,7 @@ class LetterFlow(models.Model):
     ReceiveId = models.ForeignKey(Received, on_delete=models.CASCADE)
     FlowType = models.ForeignKey(FlowType, on_delete=models.CASCADE)
     TempFile = models.BooleanField(default=False)
-    NotingText = models.TextField(null=True, blank= True)
+    NotingText = RichTextField(null=True, blank= True)
     LetterId = models.ForeignKey(IssueLetter, on_delete=models.CASCADE,null=True, blank= True)
     SuperiorAction = models.CharField(max_length=15, choices=SUPERIOR_ACTION_CHOICES,null=True, blank= True)
     FlowStartTimeStamp = models.DateTimeField(default=datetime.now)
@@ -164,12 +182,34 @@ class LetterFlow(models.Model):
     TimeTaken = models.DurationField(null=True, blank=True)
 
     def save(self, *args, **kwargs):
-        self.TimeTaken = self.FlowEndTimeStamp - self.FlowStartTimeStamp
+        if self.FlowEndTimeStamp is not None:
+            self.TimeTaken = self.FlowEndTimeStamp - self.FlowStartTimeStamp
         super(LetterFlow, self).save(*args, **kwargs)
 
     def __str__(self):
         return f"LetterFlow - {self.Id}"
     
+class ReceiveFlowStatus(models.Model):
+    Id = models.AutoField(primary_key=True)
+    ReceiveId = models.ForeignKey(Received, on_delete=models.CASCADE)
+    Status = models.CharField(max_length=50)
+
+    def save(self, *args, **kwargs):
+        letter_flow = LetterFlow.objects.filter(ReceiveId=self.ReceiveId).order_by('-FlowStartTimeStamp').first()
+
+        if letter_flow:
+            status = letter_flow.FlowType.FlowType
+
+            if letter_flow.SuperiorAction:
+                status += f'-{letter_flow.SuperiorAction}'
+
+            self.Status = status
+
+        super(ReceiveFlowStatus, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.Status}"
+
 class LetterSender(models.Model):
     SENDER_TYPE_CHOICES = [
         ('Sender', 'Sender'),

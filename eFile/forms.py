@@ -1,6 +1,7 @@
 # eFile/forms.py
+from datetime import timezone
 from django import forms
-from .models import Received, IssueLetter,Matter, MatterCorr, MatterStatus
+from .models import Received, IssueLetter,Matter, MatterCorr, MatterStatus, LetterFlow
 #from bootstrap_datepicker_plus import DatePickerInput
 from django.contrib.admin.widgets import AdminDateWidget
 
@@ -60,3 +61,42 @@ class MatterCorrForm(forms.ModelForm):
         #         self.fields['ReceiveId'].required = True
         #     elif self.instance.CorrStatus.MatterStatus == 'Letter Issued':
         #         self.fields['IssueId'].required = True
+
+
+class FlowStatusEntryForm(forms.ModelForm):
+    class Meta:
+        model = LetterFlow
+        fields = ['ReceiveId', 'FlowType', 'TempFile', 'NotingText', 'FlowStartTimeStamp']
+        widgets = {'FlowStartTimeStamp': forms.HiddenInput()}
+
+class FlowStatusVerifyForm(forms.ModelForm):
+    class Meta:
+        model = LetterFlow
+        fields = ['ReceiveId', 'FlowType', 'TempFile', 'NotingText', 'FlowStartTimeStamp', 'FlowEndTimeStamp']
+        widgets = {
+            'ReceiveId': forms.TextInput(attrs={'readonly': 'readonly'}),
+            'FlowType': forms.TextInput(attrs={'readonly': 'readonly'}),
+            'TempFile': forms.TextInput(attrs={'readonly': 'readonly'}),
+            'NotingText': forms.TextInput(attrs={'readonly': 'readonly'}),
+            'FlowStartTimeStamp': forms.TextInput(attrs={'readonly': 'readonly'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(FlowStatusVerifyForm, self).__init__(*args, **kwargs)
+        self.fields['FlowEndTimeStamp'].widget = forms.HiddenInput()
+
+    def clean(self):
+        cleaned_data = super().clean()
+        cleaned_data['FlowEndTimeStamp'] = timezone.now()
+        return cleaned_data
+
+class ActionForm(forms.ModelForm):
+    class Meta:
+        model = LetterFlow
+        fields = ['ReceiveId', 'FlowType', 'TempFile', 'NotingText']
+
+class VerifyForm(forms.ModelForm):
+    class Meta:
+        model = LetterFlow
+        fields = '__all__'
+
