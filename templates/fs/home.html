@@ -1,0 +1,20 @@
+<!-- templates/fs/home.html -->
+{% extends 'fs/base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+    <h1>Welcome to FS App</h1>
+    <p>This is the home page. Choose a section from the links below:</p>
+
+    <ul>
+        <li><a href="{% url 'fs:received_list' %}">Received List</a></li>
+        <li><a href="{% url 'fs:sender_list' %}">Sender List</a></li>
+        <li><a href="{% url 'fs:view_file_list' %}">View Files</a></li>
+        <li><a href="{% url 'fs:received_with_new_matter' %}">Add New Received</a></li>
+        <li><a href="{% url 'fs:create_flow' receive_id=1 %}">Create Flow (Example)</a></li>
+        <li><a href="{% url 'fs:view_verify_flows' %}">View Verify Flows</a></li>
+        <!-- Add other links as needed -->
+        <!-- Example: <li><a href="{% url 'fs:some_section' %}">Some Section</a></li> -->
+    </ul>
+{% endblock %}

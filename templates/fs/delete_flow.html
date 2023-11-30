@@ -1,0 +1,14 @@
+<!-- templates/fs/delete_flow.html -->
+{% extends 'fs/base.html' %}
+
+{% block title %}Delete Flow{% endblock %}
+
+{% block content %}
+  <h1>Delete Flow</h1>
+  <p>Are you sure you want to delete this flow?</p>
+  <form method="post" action="{% url 'fs:delete_flow' flow.id %}">
+    {% csrf_token %}
+    <button type="submit">Confirm Delete</button>
+  </form>
+  <a href="{% url 'fs:view_flow_list' flow.ReceiveId.id %}">View Flow List</a>
+{% endblock %}

@@ -1,0 +1,15 @@
+<!-- templates/fs/add_flow.html -->
+{% extends 'fs/base.html' %}
+
+{% block title %}Add Flow{% endblock %}
+
+{% block content %}
+  <h1>Add Flow</h1>
+  <form method="post" action="{% url 'fs:add_flow' receive_id %}">
+    {% csrf_token %}
+    {{ form.media }}
+    {{ form.as_p }}
+    <button type="submit">Submit</button>
+  </form>
+  <a href="{% url 'fs:view_flow_list' receive_id %}">View Flow List</a>
+{% endblock %}

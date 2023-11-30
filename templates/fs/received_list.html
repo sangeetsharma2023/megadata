@@ -12,6 +12,7 @@
             <tr>
                 <th>Receive Date</th>
                 <th>Sender</th>
+                <th>Status</th>
                 <th>Letter Subject</th>
                 <th>Actions</th>
             </tr>
@@ -21,7 +22,10 @@
                 <tr>
                     <td>{{ received.ReceiveDate }}</td>
                     <td>{{ received.Sender }}</td>
-                    <td>{{ received.LetterSubject }}</td>
+                    <td>{{ received.FlowStatus }}</td>
+                    <td>
+                        <a href="{% url 'fs:letter_flow_list' receive_id=received.pk %}">{{ received.LetterSubject }}</a>
+                    </td>
                     <td>
                         <a href="{% url 'fs:received_edit' pk=received.pk %}" class="btn btn-primary">Edit</a>
                         <a href="{% url 'fs:received_delete' pk=received.pk %}" class="btn btn-danger">Delete</a>

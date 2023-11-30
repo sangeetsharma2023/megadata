@@ -1,0 +1,55 @@
+<!-- create_flow.html -->
+
+{% extends 'fs/base.html' %}
+
+{% block title %}Create Flow{% endblock %}
+
+{% block content %}
+
+    <h1>Create Flow</h1>
+
+    <form method="post" action="{% url 'fs:create_flow' receive_id=form.initial.ReceiveId %}" class="mt-3">
+
+        {% csrf_token %}
+        {{ form.media }}
+        <!-- ReceiveId Field -->
+        <input type="hidden" name="ReceiveId" value="{{ form.initial.ReceiveId }}">
+
+        <!-- FlowType Field -->
+        <div class="mb-3">
+            {{ form.FlowType.label_tag }}
+            {{ form.FlowType }}
+        </div>
+
+        <!-- TempFile Field -->
+        <div class="mb-3 form-check">
+            {{ form.TempFile.label_tag }}
+            {{ form.TempFile }}
+        </div>
+
+        <!-- NotingText Field -->
+        <div class="mb-3">
+            {{ form.NotingText.label_tag }}
+            {{ form.NotingText }}
+        </div>
+
+        <!-- LetterId Field (conditionally rendered based on FlowType) -->
+        {% if form.FlowType.value == 'Draft Put Up' or form.FlowType.value == 'Letter Put Up' %}
+            <div class="mb-3">
+                {{ form.LetterId.label_tag }}
+                {{ form.LetterId }}
+            </div>
+        {% endif %}
+
+        <!-- Remark Field -->
+        <div class="mb-3">
+            {{ form.Remark.label_tag }}
+            {{ form.Remark }}
+        </div>
+
+        <button type="submit" class="btn btn-success mt-3">Submit</button>
+    </form>
+
+    <a href="{% url 'fs:received_list' %}" class="btn btn-secondary mt-3">Received List</a>
+
+{% endblock %}

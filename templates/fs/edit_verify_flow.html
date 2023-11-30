@@ -1,0 +1,43 @@
+<!-- templates/fs/edit_verify_flow.html -->
+{% extends 'fs/base.html' %}
+
+{% block title %}Edit Verify Flow{% endblock %}
+
+{% block content %}
+  <div class="container mt-4">
+    <h2>Edit Verify Flow</h2>
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form.media }}
+      <!-- Edit VerifyFlow fields here -->
+      
+      <button type="submit" class="btn btn-primary">Edit Verify Flow</button><!-- templates/fs/edit_verify_flow.html -->
+      {% extends 'fs/base.html' %}
+      
+      {% block title %}Edit Verify Flow{% endblock %}
+      
+      {% block content %}
+        <div class="container mt-4">
+          <h2>Edit Verify Flow</h2>
+          <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.media }}
+            {{ form.as_p }}
+            <!-- Edit VerifyFlow fields here -->
+            
+            <button type="submit" class="btn btn-primary">Edit Verify Flow</button>
+          </form>
+        </div>
+        <!-- Link to the list page -->
+        <div class="container mt-4">
+          <a href="{% url 'fs:view_verify_flows' %}" class="btn btn-secondary">View Verify Flows</a>
+        </div>
+      {% endblock %}
+      
+    </form>
+  </div>
+  <!-- Link to the list page -->
+  <div class="container mt-4">
+    <a href="{% url 'fs:view_verify_flows' %}" class="btn btn-secondary">View Verify Flows</a>
+  </div>
+{% endblock %}

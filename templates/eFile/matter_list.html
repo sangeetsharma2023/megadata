@@ -22,7 +22,11 @@
   <ul class="list-group">
     {% for matter in matters %}
       <li class="list-group-item">
+<<<<<<< Updated upstream
         <a href="{% url 'matter_detail_with_corr' pk=matter.pk %}">{{ matter.MatterSubject }}</a>
+=======
+        <span>{{ matter.MatterSubject }}</span>
+>>>>>>> Stashed changes
         <div class="btn-group" role="group">
           <a class="btn btn-warning" href="{% url 'matter_edit' pk=matter.pk %}">Edit</a>
           <a class="btn btn-danger" href="{% url 'matter_delete' pk=matter.pk %}">Delete</a>

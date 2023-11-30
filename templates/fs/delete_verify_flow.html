@@ -1,0 +1,20 @@
+<!-- templates/fs/delete_verify_flow.html -->
+{% extends 'fs/base.html' %}
+
+{% block title %}Delete Verify Flow{% endblock %}
+
+{% block content %}
+  <div class="container mt-4">
+    <h2>Delete Verify Flow</h2>
+    <!-- Display VerifyFlow details to confirm deletion -->
+    
+    <form method="post">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-danger">Delete Verify Flow</button>
+    </form>
+  </div>
+  <!-- Link to the list page -->
+  <div class="container mt-4">
+    <a href="{% url 'fs:view_verify_flows' %}" class="btn btn-secondary">View Verify Flows</a>
+  </div>
+{% endblock %}

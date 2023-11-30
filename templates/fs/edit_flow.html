@@ -1,0 +1,14 @@
+<!-- templates/fs/edit_flow.html -->
+{% extends 'fs/base.html' %}
+
+{% block title %}Edit Flow{% endblock %}
+
+{% block content %}
+  <h1>Edit Flow</h1>
+  <form method="post" action="{% url 'fs:edit_flow' flow.id %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Submit</button>
+  </form>
+  <a href="{% url 'fs:view_flow_list' flow.ReceiveId.id %}">View Flow List</a>
+{% endblock %}

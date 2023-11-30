@@ -1,19 +1,72 @@
+<!-- eFile/templates/eFile/matter_add.html -->
 {% extends 'eFile/base.html' %}
 
 {% block title %}Add Matter{% endblock %}
 
 {% block content %}
-
     <h2 class="mb-4">Add Matter</h2>
-    <div class="form-group">
-        <form method="post" action="{% url 'matter_add' %}" class="needs-validation" novalidate>
-            
-            {% csrf_token %}
+
+    <form method="post" action="{% url 'matter_add' %}" class="needs-validation" novalidate>
+        {% csrf_token %}
+        
+        <!-- Dropdown Section -->
+        <div class="form-group">
+            <label for="receivedDropdown">Select Received</label>
+            <select id="receivedDropdown" class="form-control" onchange="loadReceivedData()">
+                <option value="" >Select Received</option>
+                {% for received in all_received_items %}
+                    <option value="{{ received.id }}">{{ received.ReceivedSubject }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- MatterForm Section -->
+        <div id="matterFormSection" style="display: none;">
             {{ form.media }}
-            
-            {{ form.as_p }}
-            <button type="submit" class="btn btn-success mt-3">Save</button>
-        </form>
-    </div>
+            <div class="form-group">
+                <label for="{{ form.MatterDate.id_for_label }}">Matter Date</label>
+                {{ form.MatterDate }}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.MatterSubject.id_for_label }}">Matter Subject</label>
+                {{ form.MatterSubject }}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.MatterDetail.id_for_label }}">Matter Detail</label>
+                {{ form.MatterDetail }}
+            </div>
+            <!-- Other form fields... -->
+        </div>
+
+        <button type="submit" class="btn btn-success mt-3">Save</button>
+    </form>
+
+    <script>
+        function loadReceivedData() {
+            var selectedReceivedId = document.getElementById("receivedDropdown").value;
+            if (selectedReceivedId) {
+                // You can use AJAX to fetch data from the server based on the selectedReceivedId
+                // For simplicity, let's assume you have received data available in a JavaScript variable
+                var receivedData = {
+                    MatterDate: "2023-01-01",
+                    MatterSubject: "Received Subject",
+                    MatterDetail: "Received Detail"
+                    // Add other fields as needed
+                };
+
+                // Set values in the MatterForm
+                document.getElementById("id_MatterDate").value = receivedData.MatterDate;
+                document.getElementById("id_MatterSubject").value = receivedData.MatterSubject;
+                document.getElementById("id_MatterDetail").value = receivedData.MatterDetail;
+
+                // Show the MatterForm section
+                document.getElementById("matterFormSection").style.display = "block";
+            } else {
+                // Hide the MatterForm section if no received item is selected
+                document.getElementById("matterFormSection").style.display = "none";
+            }
+        }
+    </script>
+
     <a class="btn btn-secondary mt-3" href="{% url 'matter_list' %}">Back to List</a>
 {% endblock %}

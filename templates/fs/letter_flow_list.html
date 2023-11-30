@@ -1,0 +1,54 @@
+<!-- templates/letter_flow_list.html -->
+{% extends 'fs/base.html' %}
+
+{% block title %}Letter Flow List{% endblock %}
+
+{% block content %}
+
+    <h1>Letter Flow List</h1>
+
+    <!-- Display Received details -->
+    <div class="mb-4">
+        <h2>Received Details</h2>
+        <p><strong>Receive Date:</strong> {{ received_instance.ReceiveDate }}</p>
+        <p><strong>Sender:</strong> {{ received_instance.Sender }}</p>
+        <p><strong>Letter Subject:</strong> {{ received_instance.LetterSubject }}</p>
+    </div>
+
+    <!-- Button to create a new flow -->
+    <a href="{% url 'fs:create_flow' receive_id=received_instance.pk %}" class="btn btn-primary mb-3">Create Flow</a>
+
+    <!-- Table displaying LetterFlow entries -->
+    <table class="table table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>Flow Type</th>
+                <th>Temp File</th>
+                <th>Superior Action</th>
+                <th>Remark</th>
+                <th>Flow Start Time</th>
+                <th>Flow End Time</th>
+                <th>Time Taken</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for letter_flow in letter_flows %}
+                <tr>
+                    <td>{{ letter_flow.FlowType }}</td>
+                    <td>{{ letter_flow.TempFile }}</td>
+                    <td>{{ letter_flow.SuperiorAction }}</td>
+                    <td>{{ letter_flow.Remark }}</td>
+                    <td>{{ letter_flow.FlowStartTimeStamp|date:"d-m-Y H:i" }}</td>
+                    <td>{{ letter_flow.FlowEndTimeStamp|date:"d-m-Y H:i" }}</td>
+                    <td>{{ letter_flow.TimeTaken }}</td>
+                    <td>
+                        <!-- Add URL for verifying flows -->
+                        <a href="{% url 'fs:add_verify_flow' letter_flow_id=letter_flow.pk %}" class="btn btn-success">Verify Flow</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

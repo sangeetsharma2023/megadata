@@ -1,0 +1,19 @@
+<!-- templates/fs/view_flows.html -->
+{% extends 'fs/base.html' %}
+
+{% block title %}View Flows{% endblock %}
+
+{% block content %}
+  <h1>View Flows</h1>
+  {% if flows %}
+    <ul>
+      {% for flow in flows %}
+        <li><a href="{% url 'fs:edit_flow' flow.id %}">{{ flow }}</a></li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No flows available.</p>
+  {% endif %}
+  <a href="{% url 'fs:add_flow' receive_id %}">Add Flow</a>
+  <a href="{% url 'fs:view_file_list' %}">Back to View Files</a>
+{% endblock %}

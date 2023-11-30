@@ -160,3 +160,88 @@ class Received(models.Model):
         # Update the 'updated_at' field every time the model is saved
         self.updated_at = timezone.now()
         super().save(*args, **kwargs)
+
+class IssueLetter(models.Model):
+    URGENCY_CHOICES = [
+        ('Normal', 'Normal'),
+        ('Urgent', 'Urgent'),
+        ('MostUrgent', 'Most Urgent'),
+    ]
+
+    LETTER_TYPE_CHOICES = [
+        ('Draft', 'Draft'),
+        ('Letter', 'Letter'),
+    ]
+
+    LETTER_STATUS_CHOICES = [
+        ('Created', 'Created'),
+        ('Verified', 'Verified'),
+    ]
+
+    
+    LetterDate = models.DateField(null=True, blank=True)
+    LetterSubject = models.CharField(max_length=255)
+    LetterBody = RichTextField(null=True, blank=True)
+    Urgency = models.CharField(max_length=15, choices=URGENCY_CHOICES)
+    MatterId = models.ForeignKey(Matter, on_delete=models.CASCADE)
+    LetterType = models.CharField(max_length=10, choices=LETTER_TYPE_CHOICES)
+    LetterStatus = models.CharField(max_length=10, choices=LETTER_STATUS_CHOICES)
+
+
+    def __str__(self):
+        return self.LetterSubject
+
+
+class LetterFlow(models.Model):
+    SUPERIOR_ACTION_CHOICES = [
+        ('Approved', 'Approved'),
+        ('Corrected', 'Corrected'),
+        ('Rejected', 'Rejected'),
+    ]
+    
+
+    FLOW_TYPE_CHOICES= [
+        ('Noting Put Up', 'Noting Put Up'),
+        ('Draft Put Up', 'Draft Put Up'),
+        ('Letter Put Up', 'Letter Put Up'),
+    ]
+
+    
+    ReceiveId = models.ForeignKey(Received, on_delete=models.CASCADE)
+    FlowType = models.CharField(max_length=15, choices=FLOW_TYPE_CHOICES)
+    TempFile = models.BooleanField(default=False)
+    NotingText = RichTextField(null=True, blank= True)
+    LetterId = models.ForeignKey(IssueLetter, on_delete=models.CASCADE,null=True, blank= True)
+    SuperiorAction = models.CharField(max_length=15, choices=SUPERIOR_ACTION_CHOICES,null=True, blank= True)
+    Remark = models.TextField(null=True, blank=True)
+    FlowStartTimeStamp = models.DateTimeField(auto_now_add=True)
+    FlowEndTimeStamp = models.DateTimeField(null=True, blank=True)
+    TimeTaken = models.DurationField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def save(self, *args, **kwargs):
+        if self.FlowEndTimeStamp is not None:
+            self.TimeTaken = self.FlowEndTimeStamp - self.FlowStartTimeStamp
+        super(LetterFlow, self).save(*args, **kwargs)
+
+    
+        # Update the 'updated_at' field every time the model is saved
+        self.updated_at = timezone.now()
+        super().save(*args, **kwargs)
+
+        # Update FlowStatus in Received model based on conditions
+        received = self.ReceiveId
+        if self.SuperiorAction:
+            # If SuperiorAction is not blank, concat first letters of FlowType and SuperiorAction
+            received.FlowStatus = f"{self.FlowType.split()[0]} {self.SuperiorAction.split()[0]}"
+        else:
+            # If SuperiorAction is blank, set FlowStatus based on FlowType
+            received.FlowStatus = self.FlowType
+
+        received.save()
+
+
+    def __str__(self):
+        return f"LetterFlow - {self.Id}"
+    

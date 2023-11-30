@@ -23,15 +23,14 @@ class IssueLetterForm(forms.ModelForm):
         model = IssueLetter
         fields = '__all__'
         
+# eFile/forms.py
+
+
 class MatterForm(forms.ModelForm):
     class Meta:
         model = Matter
         fields = '__all__'
-        widgets = {
-            'MatterDate': forms.DateInput(attrs={'class': 'datepicker'}),
-            # Add more date fields if needed, replacing 'your_date_field_name' with the actual field name.
-        }
-
+    
 class MatterCorrForm(forms.ModelForm):
     class Meta:
         model = MatterCorr

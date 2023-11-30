@@ -1,0 +1,23 @@
+<!-- templates/fs/add_verify_flow.html -->
+{% extends 'fs/base.html' %}
+
+{% block title %}Add Verify Flow{% endblock %}
+
+{% block content %}
+  <div class="container mt-4">
+    <h2>Add Verify Flow</h2>
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form.media }}
+      {{ form.as_p }}
+      
+      <!-- Add VerifyFlow fields here -->
+      
+      <button type="submit" class="btn btn-primary">Add Verify Flow</button>
+    </form>
+  </div>
+  <!-- Link to the list page -->
+  <div class="container mt-4">
+    <a href="{% url 'fs:view_verify_flows' %}" class="btn btn-secondary">View Verify Flows</a>
+  </div>
+{% endblock %}

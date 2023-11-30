@@ -1,9 +1,18 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
-from .models import FileInfo, Sender
-from .forms import FileInfoForm, SenderForm,ReceivedForm, MatterForm, ReceivedExistingMatterForm  # You need to create a form for your model
+from .models import FileInfo, LetterFlow, Sender
+from .forms import CreateFlowForm, FileInfoForm, SenderForm,ReceivedForm, MatterForm, ReceivedExistingMatterForm, VerifyFlowForm  # You need to create a form for your model
 from django_filters.views import FilterView
 from .filters import FileInfoFilter
+from django.contrib import messages
+# fs/views.py
+
+from django.views.generic import TemplateView
+
+class HomeView(TemplateView):
+    template_name = 'fs/home.html'
+
+
 
 class AddFileView(View):
     template_name = 'fs/add_file.html'
@@ -243,3 +252,94 @@ def get_file_info(request):
         file_info = {}
 
     return JsonResponse(file_info)
+
+class CreateFlowView(View):
+    template_name = 'fs/create_flow.html'
+
+    def get(self, request, receive_id):
+        form = CreateFlowForm(initial={'ReceiveId': receive_id})
+        return render(request, 'fs/create_flow.html', {'form': form, 'receive_id': receive_id})
+
+
+    def post(self, request, receive_id):
+        form = CreateFlowForm(request.POST, initial={'ReceiveId': receive_id})
+
+        if form.is_valid():
+            # Custom logic for handling Form data before saving (if needed)
+            instance = form.save(commit=False)
+            # Additional logic here...
+
+            instance.save()
+
+            messages.success(request, 'Flow created successfully.')
+            return redirect('fs:received_list')
+
+        return render(request, 'fs/create_flow.html', {'form': form, 'receive_id': receive_id})
+
+class AddVerifyFlowView(View):
+    template_name = 'fs/add_verify_flow.html'
+
+    def get(self, request, letter_flow_id, *args, **kwargs):
+        letter_flow_instance = get_object_or_404(LetterFlow, id=letter_flow_id)
+        form = VerifyFlowForm(instance=letter_flow_instance)
+        return render(request, self.template_name, {'form': form, 'letter_flow_instance': letter_flow_instance, 'is_add': True})
+    
+    def post(self, request, letter_flow_id, *args, **kwargs):
+        letter_flow_instance = get_object_or_404(LetterFlow, id=letter_flow_id)
+        form = VerifyFlowForm(request.POST, instance=letter_flow_instance)
+        if form.is_valid():
+            form.save()
+            return redirect('fs:view_verify_flows')
+        return render(request, self.template_name, {'form': form, 'letter_flow_instance': letter_flow_instance, 'is_add': True})
+    
+
+class EditVerifyFlowView(View):
+    template_name = 'fs/edit_verify_flow.html'
+
+    def get(self, request, flow_id):
+        flow = get_object_or_404(LetterFlow, id=flow_id)
+        form = VerifyFlowForm(instance=flow)
+        return render(request, self.template_name, {'form': form, 'flow': flow})
+
+    def post(self, request, flow_id):
+        flow = get_object_or_404(LetterFlow, id=flow_id)
+        form = VerifyFlowForm(request.POST, instance=flow)
+        if form.is_valid():
+            form.save()
+            return redirect('fs:view_verify_flow_list')
+        return render(request, self.template_name, {'form': form, 'flow': flow})
+
+class DeleteVerifyFlowView(View):
+    template_name = 'fs/delete_verify_flow.html'
+
+    def get(self, request, flow_id):
+        flow = get_object_or_404(LetterFlow, id=flow_id)
+        return render(request, self.template_name, {'flow': flow})
+
+    def post(self, request, flow_id):
+        flow = get_object_or_404(LetterFlow, id=flow_id)
+        flow.delete()
+        return redirect('fs:view_verify_flow_list')
+
+class VerifyFlowListView(View):
+    template_name = 'fs/view_verify_flows.html'
+
+    def get(self, request):
+        flows = LetterFlow.objects.all()
+        return render(request, self.template_name, {'verify_flows': flows})
+    
+class LetterFlowListView(View):
+    template_name = 'fs/letter_flow_list.html'
+
+    def get(self, request, receive_id, *args, **kwargs):
+        # Retrieve the Received instance based on receive_id
+        received_instance = get_object_or_404(Received, pk=receive_id)
+
+        # Filter LetterFlow entries based on ReceiveId
+        letter_flows = LetterFlow.objects.filter(ReceiveId=received_instance)
+
+        return render(request, self.template_name, {'received_instance': received_instance,'letter_flows': letter_flows})
+
+
+
+

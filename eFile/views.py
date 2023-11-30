@@ -3,6 +3,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import CorrStatus, Received, IssueLetter, Matter,MatterStatus, LetterFlow, ReceiveFlowStatus,FlowType
 from .forms import ReceivedForm, IssueLetterForm, MatterForm, VerifyForm,FlowStatusEntryForm,FlowStatusVerifyForm
 from .forms import ActionForm, VerifyForm
+from django.http import JsonResponse
 def home(request):
     return render(request, 'eFile/home.html')
 
@@ -10,9 +11,9 @@ def received_list(request):
     received_items = Received.objects.all()
     return render(request, 'eFile/received_list.html', {'received_items': received_items})
 
-def received_detail(request, pk):
-    received_item = get_object_or_404(Received, pk=pk)
-    return render(request, 'eFile/received_detail.html', {'received_item': received_item})
+# def received_detail(request, pk):
+#     received_item = get_object_or_404(Received, pk=pk)
+#     return render(request, 'eFile/received_detail.html', {'received_item': received_item})
 
 def received_add(request):
     if request.method == 'POST':
@@ -41,6 +42,19 @@ def received_delete(request, pk):
         received_item.delete()
         return redirect('received_list')
     return render(request, 'eFile/received_delete.html', {'received_item': received_item})
+
+def get_received_details(request, received_id):
+    try:
+        received = Received.objects.get(pk=received_id)
+        data = {
+            'ReceivedDate': str(received.ReceivedDate),
+            'LetterSubject': received.LetterSubject,
+            'LetterDetail': received.LetterDetail,
+        }
+        return JsonResponse(data)
+    except Received.DoesNotExist:
+        return JsonResponse({'error': 'Received item not found'}, status=404)
+
 
 
 # code for Issue Letter
@@ -85,6 +99,9 @@ def issue_letter_delete(request, pk):
 
 
 def matter_add(request):
+    # Fetch all received items
+    all_received_items = Received.objects.all()
+
     if request.method == 'POST':
         form = MatterForm(request.POST)
         if form.is_valid():
@@ -326,3 +343,6 @@ def update_received_status(received_id, new_status):
     received_instance.save()
 
     return f'Status updated to {new_status} for Received ID {received_id}'
+
+
+
