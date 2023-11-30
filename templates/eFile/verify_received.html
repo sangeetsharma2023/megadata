@@ -1,0 +1,11 @@
+<!-- templates/eFile/verify_received.html -->
+
+{% extends 'eFile/base.html' %}
+
+{% block title %}Verify Received{% endblock %}
+
+{% block content %}
+  <h2 class="mb-4">Verify Received: {{ received.LetterSubject }}</h2>
+  <!-- Add verification details or form if needed -->
+  <a class="btn btn-secondary mt-3" href="{% url 'received_list_with_status' %}">Back to Received List</a>
+{% endblock %}

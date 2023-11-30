@@ -1,0 +1,17 @@
+<!-- verify_form.html -->
+{% extends 'eFile/base.html' %}
+
+{% block title %}
+    Verify Form
+{% endblock %}
+
+{% block content %}
+    <h2>Verify Form</h2>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.media }}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-success">Submit</button>
+    </form>
+{% endblock %}

@@ -1,0 +1,47 @@
+<!-- eFile/templates/eFile/received_list_with_status.html -->
+{% extends 'eFile/base.html' %}
+
+{% block title %}Received List with Status{% endblock %}
+
+{% block content %}
+  <h2 class="mb-4">Received List with Status</h2>
+
+  <!-- Filter Form -->
+  <form method="get" class="mb-3">
+    <label for="corr_status_filter">Filter by CorrStatus:</label>
+    <select name="corr_status_filter" id="corr_status_filter">
+      <option value="" {% if not selected_corr_status %}selected{% endif %}>All</option>
+      {% for corr_status in corr_statuses %}
+        <option value="{{ corr_status.CorrStatus }}" {% if selected_corr_status == corr_status.CorrStatus %}selected{% endif %}>{{ corr_status.CorrStatus }}</option>
+      {% endfor %}
+    </select>
+    <button type="submit" class="btn btn-primary">Apply Filter</button>
+  </form>
+
+  {% for data in data_list %}
+    <h3>{{ data.status }}</h3>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>ReceiveId</th>
+          <th>Status</th>
+          <th>Action</th>
+          <th>Verify</th>
+          <th>FileId</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for status_data in data.status_data %}
+          <tr>
+            <td>{{ status_data.ReceiveId }}</td>
+            <td>{{ status_data.Status }}</td>
+            <td><a href="{% url 'action_view' receive_id=status_data.ReceiveId %}" class="btn btn-primary">Action</a></td>
+            <td><a href="{% url 'verify_view' receive_id=status_data.ReceiveId %}" class="btn btn-success">Verify</a></td>
+            <td>{{ status_data.FileId }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% endfor %}
+
+{% endblock %}

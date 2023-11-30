@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'eFile',
     'bootstrap_datepicker_plus',
     'ckeditor',
-    
+    'fs',
+    'django_filters',
 ]
 
 MIDDLEWARE = [

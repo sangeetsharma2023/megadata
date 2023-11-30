@@ -1,0 +1,62 @@
+{% extends 'fs/base.html' %}
+
+{% block title %}View File: {{ file.FileName }}{% endblock %}
+
+{% block content %}
+    <div class="container mt-4">
+        <h2 class="mb-4">File Details</h2>
+        <table class="table">
+            <tr>
+                <th>File Name</th>
+                <td>{{ file.FileName }}</td>
+            </tr>
+            <tr>
+                <th>File Type</th>
+                <td>{{ file.FileType }}</td>
+            </tr>
+            <tr>
+                <th>File Number</th>
+                <td>{{ file.FileNo }}</td>
+            </tr>
+            <tr>
+                <th>Active Status</th>
+                <td>{{ file.ActiveStatus }}</td>
+            </tr>
+            <tr>
+                <th>Open Date</th>
+                <td>{{ file.OpenDate }}</td>
+            </tr>
+            <tr>
+                <th>Close Date</th>
+                <td>{{ file.CloseDate }}</td>
+            </tr>
+            <!-- Add other fields as needed -->
+
+            <!-- Example: Displaying the Word File link if available -->
+            {% if file.WordFile %}
+            <tr>
+                <th>Word File</th>
+                <td><a href="{{ file.WordFile.url }}" target="_blank">{{ file.WordFile.name }}</a></td>
+            </tr>
+            {% endif %}
+        </table>
+
+        <div class="mt-4">
+            <a href="{% url 'fs:edit_file' file_id=file.id %}" class="btn btn-primary">Edit</a>
+            <a href="{% url 'fs:view_file_list' %}" class="btn btn-secondary">Back to List</a>
+            <a href="{% url 'fs:delete_file' file_id=file.id %}" class="btn btn-danger">Delete</a>
+        </div>
+
+        <!-- Example: Render the form if needed -->
+        {% if form %}
+        <div class="mt-4">
+            <h2 class="mb-4">Edit File</h2>
+            <form method="post" action="{% url 'fs:edit_file' file_id=file.id %}">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+            </form>
+        </div>
+        {% endif %}
+    </div>
+{% endblock %}

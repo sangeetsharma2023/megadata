@@ -1,3 +1,4 @@
+<!-- received_list.html -->
 {% extends 'eFile/base.html' %}
 
 {% block title %}Received List{% endblock %}
@@ -7,9 +8,11 @@
     <ul class="list-group">
         {% for received_item in received_items %}
             <li class="list-group-item">
-                <a href="{% url 'received_detail' pk=received_item.pk %}">{{ received_item.LetterSubject }}</a>
+                {{ received_item }} 
+                <a class="btn btn-warning btn-sm float-right" href="{% url 'received_edit' pk=received_item.pk %}">Edit</a>
+                <!-- Add a link to the delete view if needed -->
+                <a class="btn btn-danger btn-sm float-right" href="{% url 'received_delete' pk=received_item.pk %}">Delete</a>
             </li>
         {% endfor %}
     </ul>
-    <a class="btn btn-primary mt-3" href="{% url 'received_add' %}">Add Received</a>
 {% endblock %}

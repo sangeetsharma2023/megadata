@@ -1,0 +1,27 @@
+<!-- templates/received_detail.html -->
+{% extends 'fs/base.html' %}
+
+{% block title %}Received Detail{% endblock %}
+
+{% block content %}
+
+    <h1>Received Detail</h1>
+
+    <dl class="row mt-3">
+        <dt class="col-sm-3">Receive Date:</dt>
+        <dd class="col-sm-9">{{ received_instance.ReceiveDate }}</dd>
+
+        <dt class="col-sm-3">Sender:</dt>
+        <dd class="col-sm-9">{{ received_instance.Sender }}</dd>
+
+        <dt class="col-sm-3">Letter Subject:</dt>
+        <dd class="col-sm-9">{{ received_instance.LetterSubject }}</dd>
+
+        <!-- Add more fields as needed -->
+
+        <!-- Add more fields as needed -->
+    </dl>
+
+    <a href="{% url 'fs:received_list' %}" class="btn btn-secondary mt-3">Back to Received List</a>
+
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'fs/base.html' %}
+
+{% block title %}View Sender{% endblock %}
+
+{% block content %}
+    <div class="container mt-4">
+        <h2>View Sender</h2>
+        <dl class="row">
+            <dt class="col-sm-3">Short Name</dt>
+            <dd class="col-sm-9">{{ sender.SenderShortName }}</dd>
+
+            <dt class="col-sm-3">Post</dt>
+            <dd class="col-sm-9">{{ sender.SenderPost }}</dd>
+
+            <dt class="col-sm-3">Office</dt>
+            <dd class="col-sm-9">{{ sender.SenderOffice }}</dd>
+
+            <dt class="col-sm-3">Place</dt>
+            <dd class="col-sm-9">{{ sender.SenderPlace }}</dd>
+
+            <dt class="col-sm-3">Pincode</dt>
+            <dd class="col-sm-9">{{ sender.Pincode }}</dd>
+        </dl>
+        <a href="{% url 'fs:sender_list' %}" class="btn btn-secondary">Back to Sender List</a>
+    </div>
+{% endblock %}

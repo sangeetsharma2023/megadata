@@ -1,0 +1,37 @@
+<!-- templates/received_list.html -->
+{% extends 'fs/base.html' %}
+
+{% block title %}Received List{% endblock %}
+
+{% block content %}
+
+    <h1>Received List</h1>
+
+    <table class="table table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>Receive Date</th>
+                <th>Sender</th>
+                <th>Letter Subject</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for received in received_list %}
+                <tr>
+                    <td>{{ received.ReceiveDate }}</td>
+                    <td>{{ received.Sender }}</td>
+                    <td>{{ received.LetterSubject }}</td>
+                    <td>
+                        <a href="{% url 'fs:received_edit' pk=received.pk %}" class="btn btn-primary">Edit</a>
+                        <a href="{% url 'fs:received_delete' pk=received.pk %}" class="btn btn-danger">Delete</a>
+                        <a href="{% url 'fs:received_detail' pk=received.pk %}" class="btn btn-info">View</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{% url 'fs:received_with_new_matter' %}" class="btn btn-success mt-3">Add New Received</a>
+
+{% endblock %}

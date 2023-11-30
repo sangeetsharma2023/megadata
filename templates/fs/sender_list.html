@@ -1,0 +1,46 @@
+{% extends 'fs/base.html' %}
+
+{% block title %}Sender List{% endblock %}
+
+{% block content %}
+    <div class="container mt-4">
+        <h2>Sender List</h2>
+        
+        {% if senders %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Short Name</th>
+                        <th scope="col">Post</th>
+                        <th scope="col">Office</th>
+                        <th scope="col">Place</th>
+                        <th scope="col">Pincode</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for sender in senders %}
+                        <tr>
+                            <td>{{ sender.SenderShortName }}</td>
+                            <td>{{ sender.SenderPost }}</td>
+                            <td>{{ sender.SenderOffice }}</td>
+                            <td>{{ sender.SenderPlace }}</td>
+                            <td>{{ sender.Pincode }}</td>
+                            <td>
+                                <a href="{% url 'fs:edit_sender' sender_id=sender.id %}" class="btn btn-primary btn-sm">Edit</a>
+                                <a href="{% url 'fs:view_sender' sender_id=sender.id %}" class="btn btn-info btn-sm">View</a>
+                                <a href="{% url 'fs:delete_sender' sender_id=sender.id %}" class="btn btn-danger btn-sm">Delete</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No records found.</p>
+        {% endif %}
+        
+        <div class="mt-4">
+            <a href="{% url 'fs:add_sender' %}" class="btn btn-success">Add New Sender</a>
+        </div>
+    </div>
+{% endblock %}

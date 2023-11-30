@@ -1,0 +1,15 @@
+<!-- templates/eFile/create_letter_flow.html -->
+
+{% extends 'eFile/base.html' %}
+
+{% block title %}Create Letter Flow{% endblock %}
+
+{% block content %}
+  <h2 class="mb-4">Create Letter Flow for {{ received.LetterSubject }}</h2>
+  <form method="post" action="{% url 'create_letter_flow' received.id %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary mt-3">Create Letter Flow</button>
+  </form>
+  <a class="btn btn-secondary mt-3" href="{% url 'received_list_with_status' %}">Back to Received List</a>
+{% endblock %}

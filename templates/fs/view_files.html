@@ -1,0 +1,40 @@
+{% extends 'fs/base.html' %}
+
+{% block title %}View Files{% endblock %}
+
+{% block content %}
+    <div class="container mt-4">
+        <h2>File List</h2>
+        
+        {% if files %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">File Name</th>
+                        <th scope="col">File Type</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for file in files %}
+                        <tr>
+                            <td>{{ file.FileName }}</td>
+                            <td>{{ file.FileType }}</td>
+                            <td>
+                                <a href="{% url 'fs:edit_file' file_id=file.id %}" class="btn btn-primary btn-sm">Edit</a>
+                                <a href="{% url 'fs:view_file' file_id=file.id %}" class="btn btn-info btn-sm">View</a>
+                                <a href="{% url 'fs:delete_file' file_id=file.id %}" class="btn btn-danger btn-sm">Delete</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No records found.</p>
+        {% endif %}
+
+        <div class="mt-4">
+            <a href="{% url 'fs:add_file' %}" class="btn btn-success">Add New Record</a>
+        </div>
+    </div>
+{% endblock %}

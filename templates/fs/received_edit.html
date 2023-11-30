@@ -1,0 +1,20 @@
+<!-- templates/received_edit.html -->
+{% extends 'fs/base.html' %}
+
+{% block title %}Edit Received{% endblock %}
+
+{% block content %}
+
+    <h1>Edit Received</h1>
+
+    <form method="post" action="{% url 'fs:received_edit' pk=pk %}" class="mt-3">
+        {% csrf_token %}
+        
+        {{ form.as_p }}
+
+        <button type="submit" class="btn btn-success mt-3">Save Changes</button>
+    </form>
+
+    <a href="{% url 'fs:received_list' %}" class="btn btn-secondary mt-3">Back to Received List</a>
+
+{% endblock %}
